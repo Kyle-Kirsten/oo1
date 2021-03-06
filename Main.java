@@ -5,7 +5,7 @@ public class Main {
         Scanner in = new Scanner(System.in);
         while (in.hasNext()) {
             Polynomial exp = new Polynomial(in.nextLine());
-//            System.out.println(exp.toString());
+            //System.out.println(exp.toString());
             System.out.println(exp.derivative().toString());
         }
     }

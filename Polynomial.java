@@ -11,32 +11,32 @@ public class Polynomial {
         degToTerm = new TreeMap<>();
     }
 
-    public Polynomial(String str) {
+    public Polynomial(String inStr) {
         degToTerm = new TreeMap<>();
-        if (str==null) {
+        if (inStr == null) {
             return;
         }
         //先去空格
-        str = str.replaceAll("\\s", "");
-        if (str.length()==0) {
+        String str = inStr.replaceAll("\\s", "");
+        if (str.length() == 0) {
             return;
         }
         //项的正则表达式[\+\-]*(\d+|x(\*\*[\+\-]?\d+)?)(\*(([\+\-]?\d+)|(x(\*\*[\+\-]?\d+)?)))*
         //分隔项的分隔符正则表达式(?<!\*)([\+\-]+)包括开头
         //先按分隔项符遍历多项式
-        Pattern p = Pattern.compile("(?<![\\*\\+\\-])([\\+\\-]+)");
+        Pattern p = Pattern.compile("(?<![*+\\-])([+\\-]+)");
         Matcher m = p.matcher(str);
         //记录上一个分隔符的起始位置
         int lastFind = 0;
         while (m.find()) {
-            if (m.start()==0) {
+            if (m.start() == 0) {
                 continue;
             }
             this.add(Term.strToTerm(str.substring(lastFind, m.start())));
             lastFind = m.start();
         }
         //加入最后一项
-        this.add(Term.strToTerm(str.substring(lastFind, str.length())));
+        this.add(Term.strToTerm(str.substring(lastFind)));
 
     }
 
@@ -61,7 +61,6 @@ public class Polynomial {
 
     public Polynomial derivative() {
         Polynomial der = new Polynomial();
-        Term tmp;
         for (BigInteger i : degToTerm.keySet()) {
             Term t = degToTerm.get(i);
             if (!t.getDeg().equals(BigInteger.valueOf(0))) {
