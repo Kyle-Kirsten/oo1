@@ -73,20 +73,31 @@ public class Polynomial {
 
     @Override
     public String toString() {
-        //升序输出
+        //升序最短输出
         if (degToTerm.size() == 0) {
             return "0";
         }
         String res = "";
         boolean first = true;
+        boolean sign = true;
         for (BigInteger i : degToTerm.keySet()) {
             if (first) {
                 res = degToTerm.get(i).toString();
+                sign = degToTerm.get(i).getCof().compareTo(BigInteger.valueOf(0)) > 0;
                 first = false;
             } else {
-                res = degToTerm.get(i).getCof().compareTo(BigInteger.valueOf(0)) > 0 ?
-                        res + "+" : res;
-                res += degToTerm.get(i).toString();
+                if (sign) {
+                    res = degToTerm.get(i).getCof().compareTo(BigInteger.valueOf(0)) > 0 ? res +
+                            "+" : res;
+                    res = res + degToTerm.get(i).toString();
+                } else {
+                    if (degToTerm.get(i).getCof().compareTo(BigInteger.valueOf(0)) > 0) {
+                        res = degToTerm.get(i).toString() + res;
+                        sign = true;
+                    } else {
+                        res = res + degToTerm.get(i).toString();
+                    }
+                }
             }
         }
         return res;
