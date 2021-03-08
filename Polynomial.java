@@ -1,5 +1,6 @@
 import java.math.BigInteger;
 import java.util.Map;
+import java.util.Objects;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -101,5 +102,17 @@ public class Polynomial {
             }
         }
         return res;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Polynomial)) {
+            return false;
+        }
+        if (this == o) {
+            return true;
+        }
+        Polynomial that = (Polynomial) o;
+        return Objects.equals(this.degToTerm, that.degToTerm);
     }
 }
